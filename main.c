@@ -38,6 +38,42 @@ void CreateNode(int value)
     AppendNode(&node_head, newNode);
 }
 
+void DeleteNode(Node *head, Node *node)
+{
+
+    // Checking weirdness 
+    if(node == NULL) return;
+
+    Node *current = head->next;
+    Node *previous = head;
+
+    // finding the target node
+    while(current != NULL && current != node) 
+    {
+        previous = current;
+        current = current->next;
+    }
+
+    // fixing the linked list so there will be no segfault
+    previous->next = node->next;
+    // removing the node
+    free(node);
+}
+
+void LoopNodes()
+{
+    Node *temp = node_head.next;
+    while (temp != NULL) {
+        printf("Node data: %d \n",temp->value);
+        Node *next = temp->next;
+        if(temp->value == 10) {
+            printf("Deleted the node that had the value of 10\n");
+            DeleteNode(&node_head, temp);
+        }
+        temp = next;
+    }
+}
+
 int main() {
 
     // Creating 10 nodes to see if it works correctly
@@ -47,11 +83,10 @@ int main() {
 
 
     // Looping the nodes, using node_head.next so it wouldn't print the head itself lol
-    Node *temp = node_head.next;
-    while (temp != NULL) {
-        printf("Node data: %d \n",temp->value);
-        temp = temp->next;
-    }
+    LoopNodes();
+    printf("Doing the loop again...\n");
+    LoopNodes();
+
 
     return 0;
 }
